@@ -20,10 +20,10 @@ const kanbanController = {
     try {
       const kanban: IKanban = req.body;
 
-      const kanbanExists = await KanbanModel.findOne({
+      const kanbanExist = await KanbanModel.findOne({
         name: kanban.name,
       }).exec();
-      if (kanbanExists) {
+      if (kanbanExist) {
         return res.status(409).send({
           ok: false,
           error: "There is already another kanban with this name",
@@ -36,12 +36,35 @@ const kanbanController = {
       return res.status(500).json({ error: "Sorry, something went wrong :/" });
     }
   },
+  updateKanban: async (req: Request, res: Response) => {
+    try {
+      const kanbanId = req.params._id;
+      const kanban: IKanban = req.body;
+      console.log("kanban", kanban);
+      const kanbanExist = await KanbanModel.findById(kanbanId);
+      if (!kanbanExist) {
+        return res.status(409).send({
+          ok: false,
+          error: "This kanban doesn't exist",
+        });
+      }
+      const updatedKanban = { name: "" };
+      if (req.body.hasOwnProperty("name")) updatedKanban.name = kanban.name;
+      kanbanExist.set(updatedKanban);
+      await kanbanExist.save();
+
+      return res.status(200).send({ ok: true, data: kanbanExist });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Sorry, something went wrong :/" });
+    }
+  },
   deleteKanban: async (req: Request, res: Response) => {
     try {
       const kanbanId = req.params._id;
 
-      const kanbanExists = await KanbanModel.findById(kanbanId);
-      if (!kanbanExists) {
+      const kanbanExist = await KanbanModel.findById(kanbanId);
+      if (!kanbanExist) {
         return res.status(409).send({
           ok: false,
           error: "This kanban doesn't exist",
