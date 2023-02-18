@@ -48,9 +48,17 @@ const kanbanController = {
           error: "This kanban doesn't exist",
         });
       }
-      const updatedKanban = { name: "" };
+      const updatedKanban = {
+        name: kanbanExist.name,
+        status: kanbanExist.status,
+      };
       if (req.body.hasOwnProperty("name")) updatedKanban.name = kanban.name;
+      if (req.body.hasOwnProperty("status"))
+        updatedKanban.status = kanban.status;
+      console.log("updatedKanban", updatedKanban);
       kanbanExist.set(updatedKanban);
+      // todo try
+      // kanbanExist.set(kanban);
       await kanbanExist.save();
 
       return res.status(200).send({ ok: true, data: kanbanExist });

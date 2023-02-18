@@ -2,6 +2,7 @@ import { model, Schema, Document } from "mongoose";
 
 interface IKanban extends Document {
   name: string;
+  status: "OPEN" | "DONE";
 }
 
 const KanbanSchema = new Schema({
@@ -9,6 +10,7 @@ const KanbanSchema = new Schema({
     type: String,
     unique: true,
   },
+  status: { type: String, default: "OPEN", enum: ["OPEN", "DONE"] },
   // lists: [{ type: Schema.Types.ObjectId, ref: "kanban_id" }],
 });
 
