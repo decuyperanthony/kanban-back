@@ -2,7 +2,6 @@ import { model, Schema, Document } from "mongoose";
 
 interface IKanban extends Document {
   name: string;
-  // iso2code: string;
 }
 
 const KanbanSchema = new Schema({
@@ -10,10 +9,20 @@ const KanbanSchema = new Schema({
     type: String,
     unique: true,
   },
-  // iso2code: {
-  //   type: String,
-  // },
+  // lists: [{ type: Schema.Types.ObjectId, ref: "kanban_id" }],
 });
+
+// KanbanSchema.virtual("lists", {
+//   // la ref de la collection
+//   ref: "List",
+//   // le localfield => champ présent dans la collecion
+//   // permettant de faire le lien
+//   localField: "_id",
+//   // le champ souhaité
+//   // foreign field qui sera dans notre liste le champ auteur
+//   // donc on ajoutera le champ auteur au livre
+//   foreignField: "kanban_id",
+// });
 
 const KanbanModel = model<IKanban>("Kanban", KanbanSchema);
 
