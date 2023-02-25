@@ -10,8 +10,8 @@ interface IList extends Document {
 
 const ListSchema = new Schema({
   status: String,
-  kanban_id: {
-    ref: "Kanban",
+  task_id: {
+    ref: "Task",
     type: mongoose.Schema.Types.ObjectId,
   },
 });

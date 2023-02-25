@@ -1,4 +1,4 @@
-import kanbanRoutes from "./kanban";
+import taskRoutes from "./task";
 import listRoutes from "./list";
 
-export { kanbanRoutes, listRoutes };
+export { taskRoutes, listRoutes };

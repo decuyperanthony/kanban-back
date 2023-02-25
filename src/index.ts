@@ -4,7 +4,7 @@ import "./lib/db";
 import express from "express";
 import cors from "cors";
 
-import { kanbanRoutes, listRoutes } from "./routes";
+import { taskRoutes, listRoutes } from "./routes";
 import { CORS_ORIGIN_ALLOWED } from "./utils/config";
 
 const app = express();
@@ -24,7 +24,7 @@ app.get("/", async (_req, res) => {
   res.json({ message: "Please visit /countries to view all the countries" });
 });
 
-app.use("/kanban", kanbanRoutes);
+app.use("/task", taskRoutes);
 app.use("/list", listRoutes);
 
 app.listen(port, () => {

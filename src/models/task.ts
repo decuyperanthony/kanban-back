@@ -1,20 +1,20 @@
 import { model, Schema, Document } from "mongoose";
 
-interface IKanban extends Document {
+interface ITask extends Document {
   name: string;
   status: "OPEN" | "DONE";
 }
 
-const KanbanSchema = new Schema({
+const TaskSchema = new Schema({
   name: {
     type: String,
     unique: true,
   },
   status: { type: String, default: "OPEN", enum: ["OPEN", "DONE"] },
-  // lists: [{ type: Schema.Types.ObjectId, ref: "kanban_id" }],
+  // lists: [{ type: Schema.Types.ObjectId, ref: "task_id" }],
 });
 
-// KanbanSchema.virtual("lists", {
+// TaskSchema.virtual("lists", {
 //   // la ref de la collection
 //   ref: "List",
 //   // le localfield => champ présent dans la collecion
@@ -23,9 +23,9 @@ const KanbanSchema = new Schema({
 //   // le champ souhaité
 //   // foreign field qui sera dans notre liste le champ auteur
 //   // donc on ajoutera le champ auteur au livre
-//   foreignField: "kanban_id",
+//   foreignField: "task_id",
 // });
 
-const KanbanModel = model<IKanban>("Kanban", KanbanSchema);
+const TaskModel = model<ITask>("Task", TaskSchema);
 
-export { KanbanModel, IKanban };
+export { TaskModel, ITask };
