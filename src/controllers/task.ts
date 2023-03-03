@@ -1,15 +1,12 @@
 import { TaskModel, ITask } from "../models/task";
+import { ListModel, IList } from "../models/list";
 
 import { Request, Response } from "express";
 
 const taskController = {
   getAllTasks: async (_req: Request, res: Response) => {
     try {
-      const tasks: ITask[] = await TaskModel.find()
-        // .populate("lists")
-        .exec();
-
-      console.log("tasks", tasks);
+      const tasks: ITask[] = await TaskModel.find().exec();
 
       return res.status(200).send({ ok: true, data: tasks });
     } catch (error) {
@@ -21,6 +18,7 @@ const taskController = {
   addTask: async (req: Request, res: Response) => {
     try {
       const task: ITask = req.body;
+      const { listId } = req.params;
 
       const taskExist = await TaskModel.findOne({
         name: task.name,
@@ -32,6 +30,19 @@ const taskController = {
         });
       }
       const newTask = await TaskModel.create(task);
+
+      const list = await ListModel.findById(listId);
+      if (!list) {
+        return res.status(409).send({
+          ok: false,
+          error: "The list don't exist",
+        });
+      }
+      await newTask.save();
+
+      list.tasks.push(newTask);
+      await list.save();
+
       return res.status(201).send({ ok: true, data: newTask });
     } catch (error) {
       console.error(error);
@@ -42,7 +53,7 @@ const taskController = {
     try {
       const taskId = req.params._id;
       const task: ITask = req.body;
-      console.log("task", task);
+
       const taskExist = await TaskModel.findById(taskId);
       if (!taskExist) {
         return res.status(409).send({
@@ -56,10 +67,9 @@ const taskController = {
       };
       if (req.body.hasOwnProperty("name")) updatedTask.name = task.name;
       if (req.body.hasOwnProperty("status")) updatedTask.status = task.status;
-      console.log("updatedTask", updatedTask);
+
       taskExist.set(updatedTask);
-      // todo try
-      // taskExist.set(task);
+
       await taskExist.save();
 
       return res.status(200).send({ ok: true, data: taskExist });

@@ -1,20 +1,23 @@
 import mongoose, { model, Schema, Document } from "mongoose";
+import { ITask } from "./task";
 
 interface IList extends Document {
-  status: string;
-  lists: {
-    ref: string;
-    type: string;
-  };
+  title: string;
+  tasks: ITask[];
 }
-
-const ListSchema = new Schema({
-  status: String,
-  task_id: {
-    ref: "Task",
-    type: mongoose.Schema.Types.ObjectId,
+// todo mettre tout les clés de tasks dans list
+const ListSchema = new Schema(
+  {
+    title: {
+      type: String,
+      unique: true,
+    },
+    tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }],
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const ListModel = model<IList>("List", ListSchema);
 
