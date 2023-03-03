@@ -1,5 +1,5 @@
 import { TaskModel, ITask } from "../models/task";
-import { ListModel, IList } from "../models/list";
+import { ListModel } from "../models/list";
 
 import { Request, Response } from "express";
 
@@ -49,6 +49,7 @@ const taskController = {
       return res.status(500).json({ error: "Sorry, something went wrong :/" });
     }
   },
+
   updateTask: async (req: Request, res: Response) => {
     try {
       const taskId = req.params._id;
@@ -78,6 +79,7 @@ const taskController = {
       return res.status(500).json({ error: "Sorry, something went wrong :/" });
     }
   },
+
   deleteTask: async (req: Request, res: Response) => {
     try {
       const taskId = req.params._id;

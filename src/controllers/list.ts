@@ -17,7 +17,7 @@ const listController = {
   addList: async (req: Request, res: Response) => {
     try {
       const list: IList = req.body;
-      console.log("list", list);
+
       const newList = await ListModel.create(list);
       return res.status(201).send({ ok: true, data: newList });
     } catch (error) {
@@ -26,12 +26,52 @@ const listController = {
     }
   },
 
-  //   tasksByList : async (req: Request, res: Response) => {
-  //     const { _id } = req.params;
-  //     const list = await User.findById(_id).populate('posts');
+  updateList: async (req: Request, res: Response) => {
+    try {
+      const listId = req.params._id;
+      const list: IList = req.body;
+      const listExist = await ListModel.findById(listId);
+      if (!listExist) {
+        return res.status(409).send({
+          ok: false,
+          error: "This list doesn't exist",
+        });
+      }
+      const updatedList = {
+        title: listExist.title,
+      };
+      if (req.body.hasOwnProperty("title")) updatedList.title = list.title;
 
-  //      res.send(user.posts);
-  //  }
+      listExist.set(updatedList);
+
+      await listExist.save();
+
+      return res.status(200).send({ ok: true, data: listExist });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Sorry, something went wrong :/" });
+    }
+  },
+
+  deleteList: async (req: Request, res: Response) => {
+    try {
+      const listId = req.params._id;
+
+      const listExist = await ListModel.findById(listId);
+      if (!listExist) {
+        return res.status(409).send({
+          ok: false,
+          error: "This list doesn't exist",
+        });
+      }
+      await ListModel.findByIdAndDelete(listId);
+
+      return res.status(204).send();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Sorry, something went wrong :/" });
+    }
+  },
 };
 
 export default listController;
