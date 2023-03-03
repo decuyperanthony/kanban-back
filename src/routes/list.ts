@@ -5,7 +5,7 @@ const routes = Router();
 
 routes.get("/", listController.getAllLists);
 routes.post("/", listController.addList);
-routes.put("/", listController.updateList);
-routes.delete("/", listController.deleteList);
+routes.put("/:_id", listController.updateList);
+routes.delete("/:_id", listController.deleteList);
 
 export default routes;
