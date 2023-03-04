@@ -5,9 +5,30 @@ import { Request, Response } from "express";
 const listController = {
   getAllLists: async (_req: Request, res: Response) => {
     try {
-      const lists: IList[] = await ListModel.find().populate("tasks").exec();
+      const lists: IList[] = await ListModel.find(
+        {},
+        { _id: 1, title: 1 }
+      ).exec();
 
       return res.status(200).send({ ok: true, data: lists });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Sorry, something went wrong :/" });
+    }
+  },
+
+  getTasksByListId: async (req: Request, res: Response) => {
+    try {
+      const listId = req.params._id;
+      const list = await ListModel.findById(listId).populate("tasks").exec();
+      if (!list) {
+        return res.status(409).send({
+          ok: false,
+          error: "This list doesn't exist",
+        });
+      }
+
+      return res.status(200).send({ ok: true, data: list.tasks });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Sorry, something went wrong :/" });
