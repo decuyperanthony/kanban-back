@@ -88,7 +88,6 @@ const listController = {
       }
       if (listExist.tasks.length)
         listExist.tasks.forEach((task) => {
-          console.log("ok");
           TaskModel.findByIdAndDelete(task._id);
         });
       await ListModel.findByIdAndDelete(listId);
