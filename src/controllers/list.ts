@@ -1,6 +1,7 @@
 import { ListModel, IList } from "../models/list";
 
 import { Request, Response } from "express";
+import { TaskModel } from "../models/task";
 
 const listController = {
   getAllLists: async (_req: Request, res: Response) => {
@@ -85,6 +86,11 @@ const listController = {
           error: "This list doesn't exist",
         });
       }
+      if (listExist.tasks.length)
+        listExist.tasks.forEach((task) => {
+          console.log("ok");
+          TaskModel.findByIdAndDelete(task._id);
+        });
       await ListModel.findByIdAndDelete(listId);
 
       return res.status(204).send();
