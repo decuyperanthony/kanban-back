@@ -7,10 +7,7 @@ interface ITask extends Document {
 
 const TaskSchema = new Schema(
   {
-    name: {
-      type: String,
-      unique: true,
-    },
+    name: String,
     status: { type: String, default: "OPEN", enum: ["OPEN", "DONE"] },
     list: {
       type: Schema.Types.ObjectId,

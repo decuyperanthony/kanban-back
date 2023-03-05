@@ -8,10 +8,7 @@ interface IList extends Document {
 // todo mettre tout les clés de tasks dans list
 const ListSchema = new Schema(
   {
-    title: {
-      type: String,
-      unique: true,
-    },
+    title: String,
     tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }],
   },
   {
