@@ -6,8 +6,10 @@ if (!process.env.MONGO_URL) {
   throw new Error("Please add the MONGO_URL environment variable");
 }
 
-mongoose.connect(process.env.MONGO_URL);
-mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGO_URL, () => {
+  console.log("co");
+}),
+  mongoose.set("strictQuery", true);
 
 const database = mongoose.connection;
 
