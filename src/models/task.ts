@@ -3,6 +3,7 @@ import { model, Schema, Document } from "mongoose";
 interface ITask extends Document {
   name: string;
   status: "OPEN" | "DONE";
+  done: boolean;
 }
 
 const TaskSchema = new Schema(
@@ -13,6 +14,7 @@ const TaskSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "List",
     },
+    done: { type: Boolean, default: false },
   },
   {
     timestamps: true,

@@ -65,9 +65,11 @@ const taskController = {
       const updatedTask = {
         name: taskExist.name,
         status: taskExist.status,
+        done: taskExist.done,
       };
       if (req.body.hasOwnProperty("name")) updatedTask.name = task.name;
       if (req.body.hasOwnProperty("status")) updatedTask.status = task.status;
+      if (req.body.hasOwnProperty("done")) updatedTask.done = task.done;
 
       taskExist.set(updatedTask);
 
