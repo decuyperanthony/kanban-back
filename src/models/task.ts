@@ -4,6 +4,7 @@ interface ITask extends Document {
   name: string;
   status: "OPEN" | "DONE";
   done: boolean;
+  isPrioritized: boolean;
 }
 
 const TaskSchema = new Schema(
@@ -15,6 +16,7 @@ const TaskSchema = new Schema(
       ref: "List",
     },
     done: { type: Boolean, default: false },
+    isPrioritized: { type: Boolean, default: false },
   },
   {
     timestamps: true,

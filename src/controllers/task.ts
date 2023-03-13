@@ -66,10 +66,13 @@ const taskController = {
         name: taskExist.name,
         status: taskExist.status,
         done: taskExist.done,
+        isPrioritized: taskExist.isPrioritized,
       };
       if (req.body.hasOwnProperty("name")) updatedTask.name = task.name;
       if (req.body.hasOwnProperty("status")) updatedTask.status = task.status;
       if (req.body.hasOwnProperty("done")) updatedTask.done = task.done;
+      if (req.body.hasOwnProperty("isPrioritized"))
+        updatedTask.isPrioritized = task.isPrioritized;
 
       taskExist.set(updatedTask);
 
