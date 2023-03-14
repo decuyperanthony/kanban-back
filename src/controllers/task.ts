@@ -4,9 +4,9 @@ import { ListModel } from "../models/list";
 import { Request, Response } from "express";
 
 const taskController = {
-  getAllTasks: async (_req: Request, res: Response) => {
+  getAllTasks: async (req: Request, res: Response) => {
     try {
-      const tasks: ITask[] = await TaskModel.find().exec();
+      const tasks: ITask[] = await TaskModel.find(req.query).exec();
 
       return res.status(200).send({ ok: true, data: tasks });
     } catch (error) {
