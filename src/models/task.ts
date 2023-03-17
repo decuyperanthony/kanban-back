@@ -12,7 +12,8 @@ const TaskSchema = new Schema(
   {
     name: String,
     listId: String,
-    status: { type: String, default: "OPEN", enum: ["OPEN", "DONE"] },
+    // todo remove OPEN && DONE
+    status: { type: String, default: "NONE", enum: ["OPEN", "DONE", "NONE"] },
     list: {
       type: Schema.Types.ObjectId,
       ref: "List",

@@ -1,12 +1,11 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import mongoose from "mongoose";
+import { MONGO_URL } from "../utils/config";
 
-if (!process.env.MONGO_URL) {
+if (!MONGO_URL) {
   throw new Error("Please add the MONGO_URL environment variable");
 }
 
-mongoose.connect(process.env.MONGO_URL, () => {
+mongoose.connect(MONGO_URL, () => {
   console.log("co");
 }),
   mongoose.set("strictQuery", true);
