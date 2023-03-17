@@ -6,7 +6,9 @@ import { Request, Response } from "express";
 const taskController = {
   getAllTasks: async (req: Request, res: Response) => {
     try {
-      const tasks: ITask[] = await TaskModel.find(req.query).exec();
+      const tasks: ITask[] = await TaskModel.find(req.query)
+        // .populate({ path: "list" })
+        .exec();
 
       return res.status(200).send({ ok: true, data: tasks });
     } catch (error) {
@@ -17,18 +19,9 @@ const taskController = {
 
   addTask: async (req: Request, res: Response) => {
     try {
-      const task: ITask = req.body;
+      let task: ITask = req.body;
       const { listId } = req.params;
-
-      const taskExist = await TaskModel.findOne({
-        name: task.name,
-      }).exec();
-      if (taskExist) {
-        return res.status(409).send({
-          ok: false,
-          error: "There is already another task with this name",
-        });
-      }
+      task.listId = listId;
       const newTask = await TaskModel.create(task);
 
       const list = await ListModel.findById(listId);
