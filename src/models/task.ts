@@ -2,7 +2,7 @@ import { model, Schema, Document } from "mongoose";
 
 interface ITask extends Document {
   name: string;
-  status: "OPEN" | "DONE";
+  status: "OPEN" | "DONE" | "NONE";
   done: boolean;
   isPrioritized: boolean;
   listId: string;
