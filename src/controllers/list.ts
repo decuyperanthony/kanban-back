@@ -1,7 +1,17 @@
 import { ListModel, IList } from "../models/list";
 
 import { Request, Response } from "express";
-import { TaskModel } from "../models/task";
+import { ITask, TaskModel } from "../models/task";
+
+// Fonction pour mettre à jour les tâches
+// async function updateTasks(tasks: Task[], collection: Collection<Task>): Promise<void> {
+//   // Parcourir toutes les tâches et les mettre à jour dans la collection
+//   const updatePromises: Promise<UpdateResult>[] = tasks.map((task: Task) => {
+//     return collection.updateOne(
+//       { id: task.id },
+//       { $set: { name: task.name, orderIndex: task.orderIndex } }
+//     );
+//   });
 
 const listController = {
   getAllLists: async (_req: Request, res: Response) => {
@@ -100,7 +110,6 @@ const listController = {
         return result;
       });
 
-      console.log({ updatedFields, listWithTasks, taskIds });
       const results = await Promise.all(updatePromises);
 
       // Log the number of successfully updated tasks
@@ -113,6 +122,46 @@ const listController = {
         updatedFields
       )} to ${Object.values(updatedFields)}`;
 
+      return res.status(200).send({
+        ok: true,
+        data: resText,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Sorry, something went wrong :/" });
+    }
+  },
+
+  updateOrderIndexTasksFromList: async (req: Request, res: Response) => {
+    try {
+      const tasks: ITask[] = req.body;
+
+      const updatePromises = tasks.map(async (task) => {
+        const result = await TaskModel.updateOne(
+          { _id: task._id },
+          { $set: { orderIndex: task.orderIndex } }
+        );
+        return result;
+      });
+
+      const updateResults = await Promise.all(updatePromises);
+
+      // Vérifier que toutes les mises à jour ont réussi
+      updateResults.forEach((result, index) => {
+        if (result.modifiedCount !== 1) {
+          throw new Error(
+            `La tâche ${tasks[index]._id} n'a pas pu être mise à jour.`
+          );
+        }
+      });
+
+      // Log the number of successfully updated tasks
+      const updatedCount = updateResults.reduce(
+        (count, result) => count + result.modifiedCount,
+        0
+      );
+
+      const resText = `Successfully updated ${updatedCount} task's orderIndex from list`;
       return res.status(200).send({
         ok: true,
         data: resText,

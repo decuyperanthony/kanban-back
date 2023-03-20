@@ -2,22 +2,23 @@ import { model, Schema, Document } from "mongoose";
 
 interface ITask extends Document {
   name: string;
-  status: "OPEN" | "DONE" | "NONE";
+  status: "NONE";
   done: boolean;
   isPrioritized: boolean;
   listId: string;
+  orderIndex: number;
 }
 
 const TaskSchema = new Schema(
   {
     name: String,
     listId: String,
-    // todo remove OPEN && DONE
-    status: { type: String, default: "NONE", enum: ["OPEN", "DONE", "NONE"] },
+    status: { type: String, default: "NONE", enum: ["NONE"] },
     list: {
       type: Schema.Types.ObjectId,
       ref: "List",
     },
+    orderIndex: { type: Number, default: 1 },
     done: { type: Boolean, default: false },
     isPrioritized: { type: Boolean, default: false },
   },
