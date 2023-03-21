@@ -39,7 +39,12 @@ const listController = {
         });
       }
 
-      return res.status(200).send({ ok: true, data: list.tasks });
+      return res
+        .status(200)
+        .send({
+          ok: true,
+          data: list.tasks.sort((a, b) => a.orderIndex - b.orderIndex),
+        });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Sorry, something went wrong :/" });
