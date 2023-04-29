@@ -13,7 +13,16 @@ const TaskSchema = new Schema(
   {
     name: String,
     listId: String,
-    status: { type: String, default: "NONE", enum: ["NONE"] },
+
+    // status: { type: String, default: "NONE", enum: ["NONE"] },
+    status: {
+      type: String,
+      default: "NONE",
+      enum: {
+        values: ["NONE"],
+        message: "`{VALUE}` is not a valid enum value for path `status`",
+      },
+    },
     list: {
       type: Schema.Types.ObjectId,
       ref: "List",
