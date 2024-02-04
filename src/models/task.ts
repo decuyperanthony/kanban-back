@@ -14,7 +14,6 @@ const TaskSchema = new Schema(
     name: String,
     listId: String,
 
-    // status: { type: String, default: "NONE", enum: ["NONE"] },
     status: {
       type: String,
       default: "NONE",

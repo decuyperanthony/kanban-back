@@ -5,10 +5,8 @@ if (!MONGO_URL) {
   throw new Error("Please add the MONGO_URL environment variable");
 }
 
-mongoose.connect(MONGO_URL, () => {
-  console.log("co");
-}),
-  mongoose.set("strictQuery", true);
+mongoose.connect(MONGO_URL);
+mongoose.set("strictQuery", true); // Définir strictQuery immédiatement après la connexion
 
 const database = mongoose.connection;
 

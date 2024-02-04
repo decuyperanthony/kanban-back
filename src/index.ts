@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "50mb" }));
 
 app.get("/", async (_req, res) => {
-  res.json({ message: "Please visit /countries to view all the countries" });
+  res.json({ message: "Hello Task API" });
 });
 
 app.use("/task", taskRoutes);

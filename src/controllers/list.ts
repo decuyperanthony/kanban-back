@@ -3,16 +3,6 @@ import { ListModel, IList } from "../models/list";
 import { Request, Response } from "express";
 import { ITask, TaskModel } from "../models/task";
 
-// Fonction pour mettre à jour les tâches
-// async function updateTasks(tasks: Task[], collection: Collection<Task>): Promise<void> {
-//   // Parcourir toutes les tâches et les mettre à jour dans la collection
-//   const updatePromises: Promise<UpdateResult>[] = tasks.map((task: Task) => {
-//     return collection.updateOne(
-//       { id: task.id },
-//       { $set: { name: task.name, orderIndex: task.orderIndex } }
-//     );
-//   });
-
 const listController = {
   getAllLists: async (_req: Request, res: Response) => {
     try {
@@ -39,12 +29,10 @@ const listController = {
         });
       }
 
-      return res
-        .status(200)
-        .send({
-          ok: true,
-          data: list.tasks.sort((a, b) => a.orderIndex - b.orderIndex),
-        });
+      return res.status(200).send({
+        ok: true,
+        data: list.tasks.sort((a, b) => a.orderIndex - b.orderIndex),
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Sorry, something went wrong :/" });
