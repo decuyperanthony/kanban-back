@@ -21,12 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "50mb" }));
 
 app.get("/", async (_req, res) => {
-  res.json({ message: "Hello Task API" });
+  res.json({ message: "Hello Bradley" });
 });
 
 app.use("/task", taskRoutes);
 app.use("/list", listRoutes);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Kylian MBAPPE app listening at http://localhost:${port}`);
 });
